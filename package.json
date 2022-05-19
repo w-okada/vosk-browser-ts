@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "",
     "main": "backend/dist/index.js",
+    "homepage": "./",
     "scripts": {
         "clean:backend": "rimraf backend/dist/*",
         "tsc:backend": "tsc -p tsconfig.backend.json",
