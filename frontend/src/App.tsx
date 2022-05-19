@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import "./App.css";
 import { createModel, KaldiRecognizer } from "vosk-browser";
-import { RecognizerMessage } from "vosk-browser/dist/interfaces";
-import { CommonSelector, CommonSelectorProps } from "@dannadori/demo-base";
+import { RecognizerMessage, ServerMessageResult } from "vosk-browser/dist/interfaces";
 import MicrophoneStream from "microphone-stream";
 import { Duplex, DuplexOptions } from "readable-stream";
-
-type AudioInput = {
-    label: string;
-    deviceId: string;
-};
+import { AudioInput, useAppState } from "./provider/AppStateProvider";
+import { Controller } from "./Controller";
+import { CommonSelector, CommonSelectorProps } from "@dannadori/demo-base";
 
 class AudioStreamer extends Duplex {
     constructor(public recognizer: KaldiRecognizer, options?: DuplexOptions) {
@@ -26,13 +23,28 @@ class AudioStreamer extends Duplex {
 }
 
 const App = () => {
-    const [audioInputs, setAudioInputs] = useState<AudioInput[]>([]);
-    const [audioInputDeviceId, setAudioInputDeviceId] = useState<string>();
+    const { audioInputDeviceId, setAudioInputs, audioInputs, setAudioInputDeviceId } = useAppState();
+
     const [mediaStream, setMediaStream] = useState<MediaStream>();
+    const [micStream, setMicStream] = useState<MicrophoneStream>();
     const [recognizer, setRecognizer] = useState<KaldiRecognizer>();
+    const resultRef = useRef<string[]>([]);
+    const [result, setResult] = useState<string[]>(resultRef.current);
+    const [partialResult, setPartialResult] = useState<string>("");
+    const [isInitialized, setIsInitialized] = useState(false);
+    const [_lastUpdate, setLastUpdate] = useState<number>(0);
+    const audioStreamer = useMemo(() => {
+        if (!recognizer) {
+            return null;
+        }
+        const audioStreamer = new AudioStreamer(recognizer, {
+            objectMode: true,
+        });
+        return audioStreamer;
+    }, [recognizer]);
 
     // (1) Initialize
-    //// (1-1) audio input list
+    //// (1-1) Mic device
     useEffect(() => {
         const getMics = async () => {
             const s = await navigator.mediaDevices.getUserMedia({ video: false, audio: true });
@@ -61,10 +73,16 @@ const App = () => {
             const model = await createModel("vosk/model.tar.gz");
             const recognizer = new model.KaldiRecognizer(48000);
             recognizer.on("result", (message: RecognizerMessage) => {
-                console.log(`Result: ${message}`, message);
+                // console.log(`Result: ${message}`, message);
+                const res = message as ServerMessageResult;
+                if (res.result && res.result.text) {
+                    resultRef.current = [...resultRef.current, res.result.text];
+                    setResult(resultRef.current);
+                }
             });
             recognizer.on("partialresult", (message: any) => {
-                console.log(`PartialResult: ${message}`, message.result.partial);
+                // console.log(`PartialResult: ${message}`, message);
+                setPartialResult(message.result.partial);
             });
             setRecognizer(recognizer);
         };
@@ -73,10 +91,19 @@ const App = () => {
 
     //// (1-3) set audio stream
     useEffect(() => {
+        if (!audioStreamer) {
+            return;
+        }
+        console.log("AudioInputDevice:", audioInputDeviceId);
         if (mediaStream) {
             mediaStream.getTracks().forEach((x) => {
                 x.stop();
             });
+        }
+        if (micStream) {
+            micStream.unpipe();
+            micStream.stop();
+            micStream.destroy();
         }
         const createRecorder = async () => {
             if (!recognizer) {
@@ -97,22 +124,20 @@ const App = () => {
                     bufferSize: 1024,
                 });
                 micStream.setStream(mediaStream);
-
-                const audioStreamer = new AudioStreamer(recognizer, {
-                    objectMode: true,
-                });
                 micStream.pipe(audioStreamer);
+                micStream.pause();
 
                 setMediaStream(mediaStream);
+                setMicStream(micStream);
+                setIsInitialized(true);
             } catch (exception) {
                 console.log(exception);
             }
         };
         createRecorder();
-    }, [audioInputDeviceId]);
+    }, [audioInputDeviceId, audioStreamer]);
 
     // (2) UI
-    //// (2-1) Microphone
     const micOptions: { [key: string]: string } = {};
     audioInputs.forEach((x) => {
         micOptions[x.label] = x.deviceId;
@@ -127,29 +152,51 @@ const App = () => {
             setAudioInputDeviceId(value);
         },
     };
-    //// (2-2) start
-    const start = () => {
-        // if (!recorder) {
-        //     console.log("recorder is null");
-        //     return;
-        // }
-        // recorder.start(1000);
-        // const start_in = async () => {
-        //     const context = new AudioContext();
-        //     await context.audioWorklet.addModule("bypass-processor.js");
-        //     const oscillator = new OscillatorNode(context);
-        //     const bypasser = new AudioWorkletNode(context, "bypass-processor");
-        //     oscillator.connect(bypasser).connect(context.destination);
-        //     oscillator.start();
-        // };
-        // start_in();
-    };
 
+    //// (2-1) toggle start and stop
+    const start = () => {
+        if (!micStream) {
+            console.log("mic null");
+            return;
+        }
+        if (micStream.isPaused()) {
+            console.log("mic resume");
+            micStream.resume();
+        } else {
+            console.log("mic puase");
+            micStream.pause();
+        }
+        setLastUpdate(new Date().getTime());
+    };
+    const clear = () => {
+        resultRef.current = [];
+        setResult(resultRef.current);
+    };
     return (
         <>
-            <CommonSelector {...microphoneSelectorProps}></CommonSelector>
             <div style={{ display: "flex", flexDirection: "row", width: "100%", height: "70%" }}>
-                <button onClick={start}>start</button>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", width: "70%", height: "100%", margin: "30px" }}>
+                    <div style={{ display: "flex", flexDirection: "row", alignItems: "flex-start", width: "100%" }}>
+                        <CommonSelector {...microphoneSelectorProps}></CommonSelector>
+                        <button onClick={start} className="mt-5 ml-5 p-1 border-solid border-2 border-indigo-600 rounded-lg shadow-lg border-amber-400 bg-amber-100">
+                            {!isInitialized ? "initalizing..." : micStream?.isPaused() ? "start transcribe" : "stop transcribe"}
+                        </button>
+                        <button onClick={clear} className="mt-5 ml-5 p-1 border-solid border-2 border-indigo-600 rounded-lg shadow-lg border-amber-400 bg-amber-100">
+                            clear
+                        </button>
+                    </div>
+                    <div className="mt-5">
+                        <span className="font-bold">
+                            {result.reduce((prev, cur) => {
+                                return prev.length === 0 ? cur : `${prev}. ${cur}`;
+                            }, "")}{" "}
+                        </span>
+                        <span className="font-thin text-amber-800"> {partialResult}</span>
+                    </div>
+                </div>
+                <div style={{ width: "30%", height: "100%" }}>
+                    <Controller></Controller>
+                </div>
             </div>
         </>
     );

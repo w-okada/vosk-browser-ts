@@ -3,6 +3,9 @@ import { Credit, CreditProps } from "@dannadori/demo-base";
 import { Card } from "./components/Card";
 
 export const Controller = () => {
+    // (1) Initialize
+
+    // (2) GUI
     const creditProps: CreditProps = {
         title: "Created by w-okada.",
         homepage: "https://github.com/w-okada/screen-recorder-ts",
