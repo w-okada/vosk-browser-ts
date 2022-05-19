@@ -13,9 +13,13 @@ type Props = {
 type AppStateValue = {
     windowSize: WindowSize;
     audioInputDeviceId: string | undefined;
-    setAudioInputDeviceId: (val: string) => void;
+    setAudioInputDeviceId: (val: string | undefined) => void;
     audioInputs: AudioInput[];
     setAudioInputs: (val: AudioInput[]) => void;
+    audioContent: string | undefined;
+    setAudioContent: (val: string | undefined) => void;
+    useMovie: boolean;
+    setUseMovie: (val: boolean) => void;
 };
 
 const AppStateContext = React.createContext<AppStateValue | null>(null);
@@ -33,6 +37,8 @@ export const AppStateProvider = ({ children }: Props) => {
 
     const [audioInputDeviceId, setAudioInputDeviceId] = useState<string>();
     const [audioInputs, setAudioInputs] = useState<AudioInput[]>([]);
+    const [audioContent, setAudioContent] = useState<string>();
+    const [useMovie, setUseMovie] = useState<boolean>(false);
 
     const providerValue = {
         windowSize,
@@ -40,6 +46,10 @@ export const AppStateProvider = ({ children }: Props) => {
         setAudioInputDeviceId,
         audioInputs,
         setAudioInputs,
+        audioContent,
+        setAudioContent,
+        useMovie,
+        setUseMovie,
     };
 
     return <AppStateContext.Provider value={providerValue}>{children}</AppStateContext.Provider>;
