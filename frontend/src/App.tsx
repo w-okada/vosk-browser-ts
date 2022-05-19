@@ -70,7 +70,12 @@ const App = () => {
     //// (1-2) vosk-browser
     useEffect(() => {
         const loadVosk = async () => {
-            const model = await createModel("vosk/model.tar.gz");
+            let model;
+            if (document.domain.includes("localhost")) {
+                model = await createModel("./vosk/model.tar.gz");
+            } else {
+                model = await createModel("./frontend/vosk/model.tar.gz");
+            }
             const recognizer = new model.KaldiRecognizer(48000);
             recognizer.on("result", (message: RecognizerMessage) => {
                 // console.log(`Result: ${message}`, message);
