@@ -8,8 +8,8 @@ export const Controller = () => {
     // (2) GUI
     const creditProps: CreditProps = {
         title: "Created by w-okada.",
-        homepage: "https://github.com/w-okada/screen-recorder-ts",
-        github: "https://github.com/w-okada/screen-recorder-ts",
+        homepage: "https://github.com/w-okada/vosk-browser-ts",
+        github: "https://github.com/w-okada/vosk-browser-ts",
         twitter: "https://twitter.com/DannadoriYellow",
         linkedin: "https://www.linkedin.com/in/068a68187/",
         blog: "https://medium.com/@dannadori",
