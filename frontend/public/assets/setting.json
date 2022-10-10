@@ -1,0 +1,101 @@
+{
+    "app_title": "vosk-browser-ts",
+    "langs": [
+        {
+            "lang": "English(small)",
+            "size": "40M",
+            "url": "./vosk-browser-ts/assets/models/vosk-model-small-en-us-0.15.tar.gz"
+        },
+        {
+            "lang": "Chinese(small)",
+            "size": "42M",
+            "url": "./vosk-browser-ts/assets/models/vosk-model-small-cn-0.22.tar.gz"
+        },
+        {
+            "lang": "Russian(small)",
+            "size": "45M",
+            "url": "./vosk-browser-ts/assets/models/vosk-model-small-ru-0.22.tar.gz"
+        },
+        {
+            "lang": "French(small)",
+            "size": "41M",
+            "url": "./vosk-browser-ts/assets/models/vosk-model-small-fr-0.22.tar.gz"
+        },
+        {
+            "lang": "German(small)",
+            "size": "45M",
+            "url": "./vosk-browser-ts/assets/models/vosk-model-small-de-0.15.tar.gz"
+        },
+        {
+            "lang": "Spanish(small)",
+            "size": "39M",
+            "url": "./vosk-browser-ts/assets/models/vosk-model-small-es-0.42.tar.gz"
+        },
+        {
+            "lang": "Turkish(small)",
+            "size": "35M",
+            "url": "./vosk-browser-ts/assets/models/vosk-model-small-tr-0.3.tar.gz"
+        },
+        {
+            "lang": "Vietnamese(small)",
+            "size": "32M",
+            "url": "./vosk-browser-ts/assets/models/vosk-model-small-vn-0.3.tar.gz"
+        },
+        {
+            "lang": "Italian(small)",
+            "size": "48M",
+            "url": "./vosk-browser-ts/assets/models/vosk-model-small-it-0.22.tar.gz"
+        },
+        {
+            "lang": "Dutch(small)",
+            "size": "39M",
+            "url": "./vosk-browser-ts/assets/models/vosk-model-small-nl-0.22.tar.gz"
+        },
+        {
+            "lang": "Catalan(small)",
+            "size": "42M",
+            "url": "./vosk-browser-ts/assets/models/vosk-model-small-ca-0.4.tar.gz"
+        },
+        {
+            "lang": "Farsi(small)",
+            "size": "47M",
+            "url": "./vosk-browser-ts/assets/models/vosk-model-small-fa-0.4.tar.gz"
+        },
+        {
+            "lang": "Ukrainian(small-nano)",
+            "size": "73M",
+            "url": "./vosk-browser-ts/assets/models/vosk-model-small-uk-v3-nano.tar.gz"
+        },
+        {
+            "lang": "Kazakh(small)",
+            "size": "42M",
+            "url": "./vosk-browser-ts/assets/models/vosk-model-small-kz-0.15.tar.gz"
+        },
+        {
+            "lang": "Esperanto(small)",
+            "size": "42M",
+            "url": "./vosk-browser-ts/assets/models/vosk-model-small-eo-0.42.tar.gz"
+        },
+        {
+            "lang": "Hindi(small)",
+            "size": "42M",
+            "url": "./vosk-browser-ts/assets/models/vosk-model-small-hi-0.22.tar.gz"
+        },
+        {
+            "lang": "Czech(small)",
+            "size": "44M",
+            "url": "./vosk-browser-ts/assets/models/vosk-model-small-cs-0.4-rhasspy.tar.gz"
+        },
+        {
+            "lang": "Polish(small)",
+            "size": "50.5M",
+            "url": "./vosk-browser-ts/assets/models/vosk-model-small-pl-0.22.tar.gz"
+        },
+        {
+            "lang": "Japanese(small)",
+            "size": "48M",
+            "url": "./vosk-browser-ts/assets/models/vosk-model-small-ja-0.22.tar.gz"
+        }
+    ],
+    "default_lang": "Japanese(small)"
+}
