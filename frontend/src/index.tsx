@@ -77,13 +77,13 @@ const FrontPageDisclaimerEn = () => {
 const FrontPageNoteJp = () => {
     return (
         <div className="front-description">
-            <p>このアプリケーションは <a href="https://github.com/ffmpegwasm/ffmpeg.wasm">ffmpeg.wasm</a>を使用しています</p>
+            <p>このアプリケーションは <a href="https://github.com/ccoreilly/vosk-browser">vosk-browser</a>を使用しています</p>
         </div>
     );
 };
 const FrontPageNoteEn = () => {
     return (
-        <p>This software uses <a href="https://github.com/ffmpegwasm/ffmpeg.wasm">ffmpeg.wasm</a></p>
+        <p>This software uses <a href="https://github.com/ccoreilly/vosk-browser">vosk-browser</a></p>
     );
 };
 
