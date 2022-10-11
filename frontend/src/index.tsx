@@ -46,6 +46,9 @@ const FrontPageDescriptionEn = () => {
                 Transcribe voices with your browser!
             </p>
             <p>
+                This application run on web browser and there is no need to install a dedicated application.  Also, since no communication with the server occurs after loaded, there is no need to worry about communication load.
+            </p>
+            <p>
                 Usage and source code is in <a href="https://github.com/w-okada/vosk-browser-ts">the repository</a>
             </p>
             <p className="front-description-strong">please support me! </p>
