@@ -30,11 +30,11 @@ export const Body = () => {
         <div className="body-content">
 
             <div className="body-content-upper">
-                <div className="body-content-upper-left">
-                    <video className="body-main-video" id={PLAY_VIDEO_ID} controls></video>
+                <video className="body-main-video" id={PLAY_VIDEO_ID} controls></video>
+                {/* <div className="body-content-upper-left">
                 </div>
                 <div className="body-content-upper-right">
-                </div>
+                </div> */}
             </div>
             <div className="body-content-lower">
                 <div id="body-content-text" className="body-content-text">

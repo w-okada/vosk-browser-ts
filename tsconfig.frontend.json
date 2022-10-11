@@ -7,12 +7,12 @@
         "forceConsistentCasingInFileNames": true,
 
         /* 型チェック関係のオプション */
-        // "strict": true,
-        // "noImplicitAny": true,
-        // "strictNullChecks": true,
-        // "noUnusedLocals": true,
-        // "noUnusedParameters": true,
-        // "noImplicitReturns": true,
+        "strict": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
 
         /* Module解決方法 */
         "moduleResolution": "node",

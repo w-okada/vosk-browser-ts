@@ -6,7 +6,6 @@ import { createModel, KaldiRecognizer, Model } from "vosk-browser";
 import { RecognizerMessage, ServerMessageResult } from "vosk-browser/dist/interfaces";
 import MicrophoneStream from "microphone-stream";
 import { Duplex, DuplexOptions } from "readable-stream";
-import { useAppRootState } from "../003_provider/002_AppRootStateProvider";
 
 
 class AudioStreamer extends Duplex {
@@ -68,7 +67,6 @@ export type FrontendManagerStateAndMethod = FrontendManagerState & {
 
 export const useFrontendManager = (): FrontendManagerStateAndMethod => {
     const { applicationSettingState, deviceManagerState } = useAppSetting()
-    const { audioRootState } = useAppRootState()
     const [transcribeStatus, setTranscribeStatus] = useState<TRANSCRIBE_STATUS>("not_initialized")
     const [inputType, _setInputType] = useState<InputTypes>("file")
     const [screenMediaStream, setScreenMediaStream] = useState<MediaStream>(new MediaStream())
