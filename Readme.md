@@ -13,12 +13,8 @@ Offline Transcribe
 https://w-okada.github.io/vosk-browser-ts/
 
 # Usage
+(1) Select Language
 
-# Generate Model from zip
+(2) Select Input source. You can select movie file, microphone, system audio.
 
-```
-$ wget https://alphacephei.com/vosk/models/vosk-model-small-ja-0.22.zip
-$ unar vosk-model-small-ja-0.22.zip
-$ mv vosk-model-small-ja-0.22 model
-$ tar cvfz vosk-model-small-ja-0.22.tar.gz model/
-```
+(3) then push start button to transcribe 
